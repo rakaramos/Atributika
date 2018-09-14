@@ -171,16 +171,6 @@ extension String {
         return (resultString, tagsResult)
     }
     
-    public func detectHashTags() -> [Range<String.Index>] {
-        
-        return detect(regex: "[#]\\w\\S*\\b")
-    }
-    
-    public func detectMentions() -> [Range<String.Index>] {
-        
-        return detect(regex: "[@]\\w\\S*\\b")
-    }
-    
     public func detect(regex: String, options: NSRegularExpression.Options = []) -> [Range<String.Index>] {
         
         var ranges = [Range<String.Index>]()
