@@ -94,20 +94,34 @@ class TweetCell: UITableViewCell {
     
     var tweet: String? {
         didSet {
-            let all = Style.font(.systemFont(ofSize: 20))
-            let link = Style("a")
-                .foregroundColor(.blue, .normal)
-                .foregroundColor(.brown, .highlighted)
-
             tweetLabel.attributedText = tweet?
-                .style(tags: link)
-                .styleHashtags(link)
-                .styleMentions(link)
-                .styleLinks(link)
-                .styleAll(all)
+                .htmlAttributed()
         }
     }
 }
 
-
-
+extension String {
+    func htmlAttributed(
+        font: UIFont = .systemFont(ofSize: 14),
+        color: UIColor = .black,
+        lineHeight: CGFloat = 24,
+        kernAttribute: CGFloat = -0.5,
+        alignment: NSTextAlignment = .center) -> NSAttributedString {
+        
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.minimumLineHeight = lineHeight
+        paragraph.maximumLineHeight = lineHeight
+        paragraph.alignment = alignment
+        
+        let bold = Style("b", style: Style.font(.boldSystemFont(ofSize: font.pointSize)))
+        let italic = Style("i", style: Style.font(.italicSystemFont(ofSize: font.pointSize)))
+        
+        return self.style(tags:[
+            bold,
+            italic,
+            Style.foregroundColor(color),
+            Style.paragraphStyle(paragraph),
+            Style.kern(kernAttribute)]
+        ).attributedString
+    }
+}
