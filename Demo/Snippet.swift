@@ -31,50 +31,6 @@ func stringWithTagsAndEmoji() -> NSAttributedString {
     return str
 }
 
-func stringWithHashTagAndMention() -> NSAttributedString {
-    
-    let str = "#Hello @World!!!"
-        .styleHashtags(Style.font(.boldSystemFont(ofSize: 45)))
-        .styleMentions(Style.foregroundColor(.red))
-        .attributedString
-    return str
-}
-
-func stringWithPhone() -> NSAttributedString {
-    let str = "Call me (888)555-5512"
-        .stylePhoneNumbers(Style.foregroundColor(.red))
-        .attributedString
-    return str
-}
-
-func stringWithLink() -> NSAttributedString {
-    let str = "Check this http://google.com"
-        .styleLinks(Style.foregroundColor(.blue))
-        .attributedString
-    return str
-}
-
-func stringWithManyDetectables() -> NSAttributedString {
-    
-    let links = Style.foregroundColor(.blue)
-    let phoneNumbers = Style.backgroundColor(.yellow)
-    let mentions = Style.font(.italicSystemFont(ofSize: 12)).foregroundColor(.black)
-    let b = Style("b").font(.boldSystemFont(ofSize: 12))
-    let u = Style("u").underlineStyle(.styleSingle)
-    let all = Style.font(.systemFont(ofSize: 12)).foregroundColor(.gray)
-    
-    let str = "@all I found <u>really</u> nice framework to manage attributed strings. It is called <b>Atributika</b>. Call me if you want to know more (123)456-7890 #swift #nsattributedstring https://github.com/psharanda/Atributika"
-        .style(tags: u, b)
-        .styleMentions(mentions)
-        .styleHashtags(links)
-        .styleLinks(links)
-        .stylePhoneNumbers(phoneNumbers)
-        .styleAll(all)
-        .attributedString
-    
-    return str
-}
-
 func stringWith3Tags() -> NSAttributedString {
     
     let str = "<r>first</r><g>sec⚽️nd</g><b>third</b>".style(tags:
@@ -103,17 +59,6 @@ func stringWithStrong() -> NSAttributedString {
         .attributedString
     
     return str
-}
-
-func stringWithTagAndHashtag() -> NSAttributedString {
-    
-    let str = "<b>Hello</b> #World"
-    let data = str.data(using: .utf8)
-    let options: [NSAttributedString.DocumentReadingOptionKey: Any] = [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html,NSAttributedString.DocumentReadingOptionKey.characterEncoding: String.Encoding.utf8.rawValue]
-    
-    let htmlAttrString = try! NSAttributedString(data: data!, options: options, documentAttributes: nil)
-    let result = htmlAttrString.styleHashtags(Style.foregroundColor(.blue)).attributedString
-    return result
 }
 
 func stringWithUnorderedList() -> NSAttributedString {
@@ -189,14 +134,9 @@ func allSnippets() -> [NSAttributedString] {
     return [
         stringWithAtributikaLogo(),
         stringWithTagsAndEmoji(),
-        stringWithHashTagAndMention(),
-        stringWithPhone(),
-        stringWithLink(),
-        stringWithManyDetectables(),
         stringWith3Tags(),
         stringWithGrams(),
         stringWithStrong(),
-        stringWithTagAndHashtag(),
         stringWithUnorderedList(),
         stringWithHref(),
         stringWithBoldItalicUnderline(),
