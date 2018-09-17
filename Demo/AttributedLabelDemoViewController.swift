@@ -28,7 +28,8 @@ class AttributedLabelDemoViewController: UIViewController {
         "RT or tweet #camilahammersledge for a follow 👽",
         "Denny JA: Dengan RT ini, anda ikut memenangkan Jokowi-JK. Pilih pemimpin yg bisa dipercaya (Jokowi) dan pengalaman (JK). #DJoJK",
         "Always in my heart @Harry_Styles . Yours sincerely, Louis",
-        "HELP ME PLEASE. A MAN NEEDS HIS NUGGS https://pbs.twimg.com/media/C8sk8QlUwAAR3qI.jpg"
+        "HELP ME PLEASE. A MAN NEEDS HIS NUGGS https://pbs.twimg.com/media/C8sk8QlUwAAR3qI.jpg",
+        "<i>lorem ipsum</i><b>lorem ipsum</b><p>lorem ipsum</p><b>lorem ipsum</b><p>lorem ipsum</p><br /><i>lorem ipsum</i><p>lorem ipsum</p><br /><br /><br /><br /><p>lorem ipsum</p><b>lorem ipsum</b><br /><i>lorem ipsum</i><br /><p>lorem ipsum</p><p>lorem ipsum</p><b>lorem ipsum</b><br /><i>lorem ipsum</i><br /><b>lorem ipsum</b><br /><p>lorem ipsum</p><br /><br /><b>lorem ipsum</b><p>lorem ipsum</p><br /><i>lorem ipsum</i><br /><i>lorem ipsum</i><i>lorem ipsum</i><br /><b>lorem ipsum</b>"
     ]
     
     init() {
@@ -70,31 +71,10 @@ extension AttributedLabelDemoViewController: UITableViewDelegate, UITableViewDat
 }
 
 class TweetCell: UITableViewCell {
-    private let tweetLabel = AttributedLabel()
+    private let tweetLabel = UILabel()
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-
-        tweetLabel.onClick = { label, detection in
-            switch detection.type {
-            case .hashtag(let tag):
-                if let url = URL(string: "https://twitter.com/hashtag/\(tag)") {
-                    UIApplication.shared.openURL(url)
-                }
-            case .mention(let name):
-                if let url = URL(string: "https://twitter.com/\(name)") {
-                    UIApplication.shared.openURL(url)
-                }
-            case .link(let url):
-                UIApplication.shared.openURL(url)
-            case .tag(let tag):
-                if tag.name == "a", let href = tag.attributes["href"], let url = URL(string: href) {
-                    UIApplication.shared.openURL(url)
-                }
-            default:
-                break
-            }
-        }
 
         contentView.addSubview(tweetLabel)
         
