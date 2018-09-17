@@ -59,7 +59,7 @@ public struct Style {
         return merged(with: Style.ligature(value))
     }
     
-    public func kern(_ value: Float) -> Style {
+    public func kern(_ value: CGFloat) -> Style {
         return merged(with: Style.kern(value))
     }
     
@@ -83,7 +83,7 @@ public struct Style {
         return merged(with: Style.strokeColor(value))
     }
     
-    public func strokeWidth(_ value: Float) -> Style {
+    public func strokeWidth(_ value: CGFloat) -> Style {
         return merged(with: Style.strokeWidth(value))
     }
     
@@ -107,15 +107,15 @@ public struct Style {
         return merged(with: Style.link(value))
     }
     
-    public func baselineOffset(_ value: Float) -> Style {
+    public func baselineOffset(_ value: CGFloat) -> Style {
         return merged(with: Style.baselineOffset(value))
     }
     
-    public func obliqueness(_ value: Float) -> Style {
+    public func obliqueness(_ value: CGFloat) -> Style {
         return merged(with: Style.obliqueness(value))
     }
     
-    public func expansion(_ value: Float) -> Style {
+    public func expansion(_ value: CGFloat) -> Style {
         return merged(with: Style.expansion(value))
     }
     
@@ -143,7 +143,7 @@ public struct Style {
         return Style("", [.ligature: value])
     }
     
-    public static func kern(_ value: Float) -> Style {
+    public static func kern(_ value: CGFloat) -> Style {
         return Style("", [.kern: value])
     }
     
@@ -167,7 +167,7 @@ public struct Style {
         return Style("", [.strokeColor: value])
     }
     
-    public static func strokeWidth(_ value: Float) -> Style {
+    public static func strokeWidth(_ value: CGFloat) -> Style {
         return Style("", [.strokeWidth: value])
     }
     
@@ -191,15 +191,15 @@ public struct Style {
         return Style("", [.link: value])
     }
     
-    public static func baselineOffset(_ value: Float) -> Style {
+    public static func baselineOffset(_ value: CGFloat) -> Style {
         return Style("", [.baselineOffset: value])
     }
     
-    public static func obliqueness(_ value: Float) -> Style {
+    public static func obliqueness(_ value: CGFloat) -> Style {
         return Style("", [.obliqueness: value])
     }
     
-    public static func expansion(_ value: Float) -> Style {
+    public static func expansion(_ value: CGFloat) -> Style {
         return Style("", [.expansion: value])
     }
     
