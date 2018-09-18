@@ -38,10 +38,43 @@ public struct Detection {
 public protocol AttributedTextProtocol {
     var string: String { get }
     var detections: [Detection] { get }
-    var baseStyle: Style { get }
+//    var baseStyle: Style { get }
 }
 
 extension AttributedTextProtocol {
+    
+    private func makeAttributedString(baseStyle: Style, getAttributes: (Style)-> [NSAttributedStringKey: Any]) -> NSAttributedString {
+        let attributedString = NSMutableAttributedString(string: string, attributes: getAttributes(baseStyle))
+        
+        for d in detections {
+            let attrs = getAttributes(d.style)
+            if attrs.count > 0 {
+                attributedString.addAttributes(attrs, range: NSRange(d.range, in: string))
+            }
+        }
+        
+        return attributedString
+    }
+    
+    public func attributedString(baseStyle: Style) -> NSAttributedString {
+        return makeAttributedString(baseStyle: baseStyle) { $0.attributes }
+    }
+}
+
+public struct AttributedText: AttributedTextProtocol {
+    public var attributedString: NSAttributedString {
+        return makeAttributedString { $0.attributes }
+    }
+    
+    public let string: String
+    public let detections: [Detection]
+    public let baseStyle: Style
+    
+    init(string: String, detections: [Detection], baseStyle: Style) {
+        self.string = string
+        self.detections = detections
+        self.baseStyle = baseStyle
+    }
     
     private func makeAttributedString(getAttributes: (Style)-> [NSAttributedStringKey: Any]) -> NSAttributedString {
         let attributedString = NSMutableAttributedString(string: string, attributes: getAttributes(baseStyle))
@@ -56,24 +89,6 @@ extension AttributedTextProtocol {
         return attributedString
     }
     
-    public var attributedString: NSAttributedString {
-        return makeAttributedString { $0.attributes }
-    }
-}
-
-public struct AttributedText: AttributedTextProtocol {
-    public let string: String
-    public let detections: [Detection]
-    public let baseStyle: Style
-    
-    init(string: String, detections: [Detection], baseStyle: Style) {
-        self.string = string
-        self.detections = detections
-        self.baseStyle = baseStyle
-    }
-}
-
-extension AttributedTextProtocol {
     public func styleAll(_ style: Style) -> AttributedText {
         return AttributedText(string: string, detections: detections, baseStyle: baseStyle.merged(with: style))
     }
@@ -93,11 +108,7 @@ extension String: AttributedTextProtocol {
         return []
     }
     
-    public var baseStyle: Style {
-        return Style()
-    }
-    
-    public func style(tags: [Style], transformers: [TagTransformer] = [.brTransformer], tuner: (Style, Tag) -> Style = { s, _ in return  s}) -> AttributedText {
+    public func style(baseStyle: Style = Style(), tags: [Style], transformers: [TagTransformer] = [.brTransformer], tuner: (Style, Tag) -> Style = { s, _ in return  s}) -> AttributedText {
         let (string, tagsInfo) = detectTags(transformers: transformers)
         
         var ds: [Detection] = []
@@ -114,8 +125,17 @@ extension String: AttributedTextProtocol {
         return AttributedText(string: string, detections: ds, baseStyle: baseStyle)
     }
     
-    public func style(tags: Style..., transformers: [TagTransformer] = [TagTransformer.brTransformer], tuner: (Style, Tag) -> Style = { s, _ in return  s}) -> AttributedText {
-        return style(tags: tags, transformers: transformers, tuner: tuner)
+    public func style(baseStyle: Style = Style(), tags: Style..., transformers: [TagTransformer] = [TagTransformer.brTransformer], tuner: (Style, Tag) -> Style = { s, _ in return  s}) -> AttributedText {
+        return style(baseStyle: baseStyle, tags: tags, transformers: transformers, tuner: tuner)
+    }
+    
+    public func styleAll(baseStyle: Style = Style(), _ style: Style) -> AttributedText {
+        return AttributedText(string: string, detections: detections, baseStyle: baseStyle.merged(with: style))
+    }
+    
+    public func style(range: Range<String.Index>, baseStyle: Style = Style(), style: Style) -> AttributedText {
+        let d = Detection(type: .range, style: style, range: range)
+        return AttributedText(string: string, detections: detections + [d], baseStyle: baseStyle)
     }
 }
 

@@ -29,7 +29,7 @@ class AttributedLabelDemoViewController: UIViewController {
         "Denny JA: Dengan RT ini, anda ikut memenangkan Jokowi-JK. Pilih pemimpin yg bisa dipercaya (Jokowi) dan pengalaman (JK). #DJoJK",
         "Always in my heart @Harry_Styles . Yours sincerely, Louis",
         "HELP ME PLEASE. A MAN NEEDS HIS NUGGS https://pbs.twimg.com/media/C8sk8QlUwAAR3qI.jpg",
-        "<i>lorem ipsum</i><b>lorem ipsum</b><p>lorem ipsum</p><b>lorem ipsum</b><p>lorem ipsum</p><br /><i>lorem ipsum</i><p>lorem ipsum</p><br /><br /><br /><br /><p>lorem ipsum</p><b>lorem ipsum</b><br /><i>lorem ipsum</i><br /><p>lorem ipsum</p><p>lorem ipsum</p><b>lorem ipsum</b><br /><i>lorem ipsum</i><br /><b>lorem ipsum</b><br /><p>lorem ipsum</p><br /><br /><b>lorem ipsum</b><p>lorem ipsum</p><br /><i>lorem ipsum</i><br /><i>lorem ipsum</i><i>lorem ipsum</i><br /><b>lorem ipsum</b>"
+        "asdasdasdasdasdasd <i>lorem ipsum</i><b>lorem ipsum</b><p>lorem ipsum</p><b>lorem ipsum</b><p>lorem ipsum</p><br /><i>lorem ipsum</i><p>lorem ipsum</p><br /><br /><br /><br /><p>lorem ipsum</p><b>lorem ipsum</b><br /><i>lorem ipsum</i><br /><p>lorem ipsum</p><p>lorem ipsum</p><b>lorem ipsum</b><br /><i>lorem ipsum</i><br /><b>lorem ipsum</b><br /><p>lorem ipsum</p><br /><br /><b>lorem ipsum</b><p>lorem ipsum</p><br /><i>lorem ipsum</i><br /><i>lorem ipsum</i><i>lorem ipsum</i><br /><b>lorem ipsum</b>"
     ]
     
     init() {
@@ -113,10 +113,14 @@ extension String {
         paragraph.maximumLineHeight = lineHeight
         paragraph.alignment = alignment
         
-        let bold = Style("b", style: Style.font(.boldSystemFont(ofSize: font.pointSize)))
+        let f = UIFont.init(name: "Courier", size: 12)
+        let b = UIFont.init(name: "Courier-Bold", size: 12)
+        
+        let noTag = Style("", [.font: f!])
+        let bold = Style("b", style: Style.font(.boldSystemFont(ofSize: 12)))
         let italic = Style("i", style: Style.font(.italicSystemFont(ofSize: font.pointSize)))
         
-        return self.style(tags:[
+        return self.style(baseStyle: noTag, tags:[
             bold,
             italic,
             Style.foregroundColor(color),
